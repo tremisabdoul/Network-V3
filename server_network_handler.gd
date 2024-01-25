@@ -71,9 +71,9 @@ func synchronise_data(data: Dictionary):
 
 func send_data():
 	players_data["time"] = Time.get_unix_time_from_system()
-	var x = load("res://icon.svg")
-	for i in range(10000):
-		players_data["i"+str(i)] = x
+	#var x = load("res://icon.svg")
+	#for i in range(10000):
+	#	players_data["i"+str(i)] = x
 	rpc("synchronise_data", players_data)
 
 

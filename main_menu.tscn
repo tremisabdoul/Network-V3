@@ -12,6 +12,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ColorRect" type="ColorRect" parent="Lobby"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 64.0
 offset_right = 320.0
@@ -19,6 +20,7 @@ offset_bottom = 576.0
 color = Color(0, 0, 0, 0.188235)
 
 [node name="ColorRect2" type="ColorRect" parent="Lobby"]
+layout_mode = 0
 offset_left = 320.0
 offset_top = 64.0
 offset_right = 576.0
@@ -32,6 +34,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ColorRect3" type="ColorRect" parent="Connection"]
+layout_mode = 0
 offset_left = 760.0
 offset_top = 456.0
 offset_right = 1032.0
@@ -39,6 +42,7 @@ offset_bottom = 584.0
 color = Color(0, 0, 0, 0.188235)
 
 [node name="Start Server" type="Button" parent="Connection"]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 464.0
 offset_right = 1024.0
@@ -46,6 +50,7 @@ offset_bottom = 496.0
 text = "Start Server"
 
 [node name="Start Client" type="Button" parent="Connection"]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 544.0
 offset_right = 1024.0
@@ -53,6 +58,7 @@ offset_bottom = 576.0
 text = "Start Client"
 
 [node name="IP" type="TextEdit" parent="Connection"]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 504.0
 offset_right = 904.0
@@ -70,6 +76,7 @@ text = "Server's Public IPv4 Adress ->"
 vertical_alignment = 1
 
 [node name="Port" type="TextEdit" parent="Connection"]
+layout_mode = 0
 offset_left = 920.0
 offset_top = 504.0
 offset_right = 1024.0
