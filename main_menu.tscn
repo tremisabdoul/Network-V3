@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqap8jeqsu4pm"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_frsvj"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_frsvj")
+
+[node name="Lobby" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Lobby"]
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 320.0
+offset_bottom = 576.0
+color = Color(0, 0, 0, 0.188235)
+
+[node name="ColorRect2" type="ColorRect" parent="Lobby"]
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 576.0
+offset_bottom = 576.0
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Connection" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect3" type="ColorRect" parent="Connection"]
+offset_left = 760.0
+offset_top = 456.0
+offset_right = 1032.0
+offset_bottom = 584.0
+color = Color(0, 0, 0, 0.188235)
+
+[node name="Start Server" type="Button" parent="Connection"]
+offset_left = 768.0
+offset_top = 464.0
+offset_right = 1024.0
+offset_bottom = 496.0
+text = "Start Server"
+
+[node name="Start Client" type="Button" parent="Connection"]
+offset_left = 768.0
+offset_top = 544.0
+offset_right = 1024.0
+offset_bottom = 576.0
+text = "Start Client"
+
+[node name="IP" type="TextEdit" parent="Connection"]
+offset_left = 768.0
+offset_top = 504.0
+offset_right = 904.0
+offset_bottom = 536.0
+text = "127.0.0.1"
+placeholder_text = "Public IPv4"
+scroll_past_end_of_file = true
+
+[node name="Label" type="Label" parent="Connection/IP"]
+layout_mode = 0
+offset_left = -232.0
+offset_right = -8.0
+offset_bottom = 32.0
+text = "Server's Public IPv4 Adress ->"
+vertical_alignment = 1
+
+[node name="Port" type="TextEdit" parent="Connection"]
+offset_left = 920.0
+offset_top = 504.0
+offset_right = 1024.0
+offset_bottom = 536.0
+text = "21212"
+placeholder_text = "Port"
+scroll_past_end_of_file = true
+
+[node name="Label" type="Label" parent="Connection/Port"]
+layout_mode = 0
+offset_left = 112.0
+offset_right = 229.0
+offset_bottom = 32.0
+text = "<- Server's Port"
+vertical_alignment = 1
+
+[connection signal="pressed" from="Connection/Start Server" to="." method="_on_start_server_pressed"]
+[connection signal="pressed" from="Connection/Start Client" to="." method="_on_start_client_pressed"]
