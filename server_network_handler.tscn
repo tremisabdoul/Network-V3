@@ -54,6 +54,7 @@ offset_left = 8.0
 offset_top = 416.0
 offset_right = 728.0
 offset_bottom = 632.0
+focus_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_d0m53")
 bbcode_enabled = true
 text = "Server help:
@@ -79,3 +80,5 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_4oclt")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_57ju0")
 theme_override_styles/focus = SubResource("StyleBoxFlat_53dpe")
 text = "Click to show /!\\ DON'T LEAK IT /!\\"
+
+[node name="Players" type="Node" parent="."]

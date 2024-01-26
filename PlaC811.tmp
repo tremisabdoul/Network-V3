@@ -4,9 +4,3 @@
 
 [node name="0" type="Node"]
 script = ExtResource("1_5kwca")
-
-[node name="Debug" type="RichTextLabel" parent="."]
-offset_left = 64.0
-offset_top = 64.0
-offset_right = 576.0
-offset_bottom = 320.0

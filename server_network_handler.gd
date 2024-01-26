@@ -35,6 +35,9 @@ func connect_peer(id):
 	id = str(id)
 	print("Client connection:\t", id)
 	players_data["players"][id] = {"delay": 0.0}
+	if !get_node("Players").has_node(id):
+		get_node("Players").add_child(Global._Player.instantiate())
+		get_node("Players").get_children()[-1].name = id
 	get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 			"is server: true, players: " + str(players_data["players"].keys())
 
@@ -48,22 +51,11 @@ func disconnect_peer(id):
 			"is server: true, players: " + str(players_data["players"].keys())
 
 
-func instanciate_player(id: String):
-	print("Client ", id, "'s Player scene spawned")
-	#var Player = _Player.instantiate()
-	#Player.name = str(id)
-	#get_node("/root/Game/Entities/Players").add_child(Player)
-
-
-func uninstanciate_player(id: String):
-	print("Client ", id, "'s Player scene unspawned")
-	#if get_node("/root/").has_node("/Game/Entities/Players/" + str(id)):
-	#	get_node("/root/Game/Entities/Players/" + str(id)).queue_free()
-
-
 @rpc("any_peer", "call_remote", "unreliable", 0)
 func synchronise_data(data: Dictionary):
 	var sender: String = str(multiplayer.get_remote_sender_id())
+	if get_node("Players").has_node(sender):
+		get_node("Players/" + sender).synchronize_inputs(data["inputs"])
 	players_data["players"][sender]["delay"] = (players_data["players"][sender]["delay"] * 99 + 
 			(Time.get_unix_time_from_system() - data["time"]) * 1000) / 100
 	players_data["players"][sender]["delay"] = float(players_data["players"][sender]["delay"])
@@ -71,9 +63,9 @@ func synchronise_data(data: Dictionary):
 
 func send_data():
 	players_data["time"] = Time.get_unix_time_from_system()
-	#var x = load("res://icon.svg")
-	#for i in range(10000):
-	#	players_data["i"+str(i)] = x
+	for player in players_data["players"]:
+		players_data["players"][player]["online_variables"] = \
+				get_node("Players/" + player).get_online_variables()
 	rpc("synchronise_data", players_data)
 
 

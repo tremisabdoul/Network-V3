@@ -5,7 +5,8 @@ func _on_start_server_pressed():
 	if get_node("/root/").has_node("Network"):
 		get_node("/root/Network").queue_free()
 	var network = load("res://server_network_handler.tscn").instantiate()
-	network.PORT = $Connection/Port.text if $Connection/Port.text else 21212
+	if $Connection/Port.text: network.PORT = $Connection/Port.text
+	else: network.PORT = 21212
 	get_node("/root/").add_child(network)
 	$Lobby.visible = false
 	$Connection.visible = false
@@ -15,8 +16,11 @@ func _on_start_client_pressed():
 	if get_node("/root/").has_node("Network"):
 		get_node("/root/Network").queue_free()
 	var network = load("res://client_network_handler.tscn").instantiate()
-	network.TARGET_IP = $Connection/IP.text if $Connection/IP.text else "127.0.0.1"
-	network.PORT = $Connection/Port.text if $Connection/Port.text else 21212
+	var x:String = $Connection/IP.text
+	if x: network.TARGET_IP = x
+	else: network.TARGET_IP = "127.0.0.1"
+	if $Connection/Port.text: network.PORT = $Connection/Port.text
+	else: network.PORT = 21212
 	get_node("/root/").add_child(network)
 	$Lobby.visible = true
 	$Connection.visible = false

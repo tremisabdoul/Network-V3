@@ -17,8 +17,8 @@ const CONNECTION_STATUS_MESSAGES = [
 	"net status: [color=#00FF00]connected[/color], "
 ]
 
-var current_connection_status: int
-var players_data: Dictionary
+var current_connection_status: int = 0
+var players_data: Dictionary = {"players": {}}
 
 # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
 # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
@@ -38,26 +38,6 @@ func join_room():
 # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
 
 
-
-func instanciate_player(id: int):
-	print("Client ", id, "'s Player scene spawned")
-	#var player = _Player.instantiate()
-	#player.name = str(id)
-	#player.set_multiplayer_authority(id)
-	#get_node("/root/Game/Entities/Players").add_child(player)
-
-
-func uninstanciate_player(id: int):
-	print("Client ", id, "'s Player scene unspawned")
-	if get_node("/root/").has_node("/Game/Entities/Players/" + str(id)):
-		get_node("/root/Game/Entities/Players/" + str(id)).queue_free()
-
-
-# --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
-# --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
-# --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
-
-
 @rpc("authority", "call_remote", "unreliable", 0)
 func synchronise_data(data: Dictionary):
 	var players_remaining = players_data["players"].keys()
@@ -69,12 +49,14 @@ func synchronise_data(data: Dictionary):
 		if !(id in players_data["players"].keys()):
 			print("Client connection:\t", id)
 			players_data["players"][id] = {"delay": 0.0}
+			if !get_node("Players").has_node(id):
+				get_node("Players").add_child(Global._Player.instantiate())
+				get_node("Players").get_children()[-1].name = id
+			players_data["players"][id] = {"delay": 0.0}
 			get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 					"is server: false, players: " + str(players_data["players"].keys())
-
-		if id == str(multiplayer.get_unique_id()):
-			if randf() > .0:
-				print("Delay: ", round(data["players"][id]["delay"]*5)/5, "\tms")
+		
+		get_node("Players/"+id).synchronize_data(data["players"][id])
 
 	for id in players_remaining:
 		print("Client disconnection:\t", id)
@@ -89,8 +71,6 @@ func synchronise_data(data: Dictionary):
 
 
 func _ready():
-	players_data = {"players": {}}
-
 	join_room()
 
 
@@ -104,12 +84,16 @@ func _process(_delta):
 		get_node("Net Status").visible = !get_node("Net Status").visible
 
 	if current_connection_status == 2:
-		var action_var: int = 0
-		for i in range(len(Global.actions)):
-			action_var += int(Input.is_action_pressed(Global.actions[i])) * int(pow(2, i))
+		var inputs: int = 0
+		for i in range(len(Global.input_list)):
+			inputs += int(Input.is_action_pressed(Global.input_list[i])) * int(pow(2, i))
+		
+		if get_node("Players").has_node(str(multiplayer.get_unique_id())):
+			get_node("Players/" + str(multiplayer.get_unique_id())).synchronize_inputs(inputs)
 		rpc_id(1, "synchronise_data", {
 			"time": Time.get_unix_time_from_system(), 
-			"inputs": action_var
+			"inputs": inputs, 
+			"mouse_position": get_window().get_mouse_position()
 		})
 
 
