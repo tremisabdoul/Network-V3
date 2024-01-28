@@ -12,4 +12,4 @@ func _ready():
 			i += 1
 		else:
 			input_list.pop_at(i)
-	_Player = load("res://Player.tscn")
+	_Player = load("res://network/player.tscn")

@@ -1,5 +1,6 @@
 extends Node
 
+@onready var Players: Node = get_node("Players")
 
 var ENet: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var PORT: int = 21212
@@ -35,9 +36,9 @@ func connect_peer(id):
 	id = str(id)
 	print("Client connection:\t", id)
 	players_data["players"][id] = {"delay": 0.0}
-	if !get_node("Players").has_node(id):
-		get_node("Players").add_child(Global._Player.instantiate())
-		get_node("Players").get_children()[-1].name = id
+	if !Players.has_node(id):
+		Players.add_child(Global._Player.instantiate())
+		Players.get_children()[-1].name = id
 	get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 			"is server: true, players: " + str(players_data["players"].keys())
 
@@ -53,19 +54,19 @@ func disconnect_peer(id):
 
 @rpc("any_peer", "call_remote", "unreliable", 0)
 func synchronise_data(data: Dictionary):
-	var sender: String = str(multiplayer.get_remote_sender_id())
-	if get_node("Players").has_node(sender):
-		get_node("Players/" + sender).synchronize_inputs(data["inputs"])
-	players_data["players"][sender]["delay"] = (players_data["players"][sender]["delay"] * 99 + 
+	var id: String = str(multiplayer.get_remote_sender_id())
+	if Players.has_node(id):
+		Players.get_node(id).input_process(data["inputs"])
+	players_data["players"][id]["delay"] = (players_data["players"][id]["delay"] * 99 + 
 			(Time.get_unix_time_from_system() - data["time"]) * 1000) / 100
-	players_data["players"][sender]["delay"] = float(players_data["players"][sender]["delay"])
+	players_data["players"][id]["delay"] = float(players_data["players"][id]["delay"])
 
 
 func send_data():
 	players_data["time"] = Time.get_unix_time_from_system()
-	for player in players_data["players"]:
-		players_data["players"][player]["online_variables"] = \
-				get_node("Players/" + player).get_online_variables()
+	for id in players_data["players"]:
+		players_data["players"][id]["online_variables"] = \
+				Players.get_node(id).get_online_variables()
 	rpc("synchronise_data", players_data)
 
 
@@ -100,15 +101,22 @@ func _process(_delta):
 		get_node("Net Status").set("text", CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 				"is server: true, players: " + str(players_data["players"].keys())
 		)
-
+	
 	if Input.is_action_just_pressed("switch_network_status_visibility"):
-		get_node("Net Status").visible = !get_node("Net Status").visible
-		if get_node("Net Status").visible:
+		if !get_parent().size:
+			print("e")
+			get_parent().borderless = false
 			get_window().reset_size()
-			get_viewport().disable_3d = false
+			if get_window().size.length() < 128:
+				get_window().size = Vector2(736, 328)
+				get_window().position = Vector2(0, 32)
+			#get_viewport().disable_3d = false
 		else:
-			get_window().size = Vector2(0, 0)
-			get_viewport().disable_3d = true
+			print("f")
+			get_parent().borderless = true
+			get_parent().min_size = Vector2()
+			get_window().size = Vector2()
+			#get_viewport().disable_3d = true
 
 	if current_connection_status == 2:
 		send_data()

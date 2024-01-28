@@ -1,5 +1,7 @@
 extends Node
 
+@onready var Players: Node = get_node("Players")
+
 var ENet: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var TARGET_IP: String = "127.0.0.1"
 var PORT: int = 21212
@@ -18,6 +20,7 @@ const CONNECTION_STATUS_MESSAGES = [
 ]
 
 var current_connection_status: int = 0
+var gamestate: int = 0
 var players_data: Dictionary = {"players": {}}
 
 # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- #
@@ -49,14 +52,14 @@ func synchronise_data(data: Dictionary):
 		if !(id in players_data["players"].keys()):
 			print("Client connection:\t", id)
 			players_data["players"][id] = {"delay": 0.0}
-			if !get_node("Players").has_node(id):
-				get_node("Players").add_child(Global._Player.instantiate())
-				get_node("Players").get_children()[-1].name = id
+			if !Players.has_node(id):
+				Players.add_child(Global._Player.instantiate())
+				Players.get_children()[-1].name = id
 			players_data["players"][id] = {"delay": 0.0}
 			get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 					"is server: false, players: " + str(players_data["players"].keys())
 		
-		get_node("Players/"+id).synchronize_data(data["players"][id])
+		Players.get_node(id).synchronize_data(data["players"][id])
 
 	for id in players_remaining:
 		print("Client disconnection:\t", id)
@@ -84,12 +87,14 @@ func _process(_delta):
 		get_node("Net Status").visible = !get_node("Net Status").visible
 
 	if current_connection_status == 2:
-		var inputs: int = 0
+		send_data()
+
+func send_data():
+	if Players.has_node(str(multiplayer.get_unique_id())):
+		var inputs = 0
 		for i in range(len(Global.input_list)):
 			inputs += int(Input.is_action_pressed(Global.input_list[i])) * int(pow(2, i))
-		
-		if get_node("Players").has_node(str(multiplayer.get_unique_id())):
-			get_node("Players/" + str(multiplayer.get_unique_id())).synchronize_inputs(inputs)
+		Players.get_node(str(multiplayer.get_unique_id())).input_process(inputs)
 		rpc_id(1, "synchronise_data", {
 			"time": Time.get_unix_time_from_system(), 
 			"inputs": inputs, 

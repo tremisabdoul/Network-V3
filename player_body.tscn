@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccyuno2jskvxx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qolwv"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y30xf"]
+radius = 0.4
+height = 1.8
+
+[node name="Body" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_qolwv")
+
+[node name="Mesh" type="MeshInstance3D" parent="Collision"]
+mesh = SubResource("CapsuleMesh_y30xf")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera2D" type="Camera2D" parent="Camera3D"]
+
+[node name="ColorRect" type="ColorRect" parent="Camera3D/Camera2D"]
+offset_left = 16.0
+offset_top = 24.0
+offset_right = 48.0
+offset_bottom = 40.0
+rotation = 0.785398
+pivot_offset = Vector2(16, 8)
+
+[node name="ColorRect2" type="ColorRect" parent="Camera3D/Camera2D"]
+offset_left = -48.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = 40.0
+rotation = 2.35619
+pivot_offset = Vector2(16, 8)
+
+[node name="ColorRect3" type="ColorRect" parent="Camera3D/Camera2D"]
+offset_left = -48.0
+offset_top = -40.0
+offset_right = -16.0
+offset_bottom = -24.0
+rotation = 3.92699
+pivot_offset = Vector2(16, 8)
+
+[node name="ColorRect4" type="ColorRect" parent="Camera3D/Camera2D"]
+offset_left = 16.0
+offset_top = -40.0
+offset_right = 48.0
+offset_bottom = -24.0
+rotation = 5.49779
+pivot_offset = Vector2(16, 8)

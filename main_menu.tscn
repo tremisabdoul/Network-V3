@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqap8jeqsu4pm"]
+[gd_scene load_steps=3 format=3 uid="uid://cqap8jeqsu4pm"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_frsvj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esas6"]
+bg_color = Color(0.192157, 0.192157, 0.192157, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Main Menu" type="Node2D"]
 script = ExtResource("1_frsvj")
@@ -14,18 +21,51 @@ offset_bottom = 40.0
 [node name="ColorRect" type="ColorRect" parent="Lobby"]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 64.0
+offset_top = 128.0
 offset_right = 320.0
 offset_bottom = 576.0
 color = Color(0, 0, 0, 0.188235)
 
 [node name="ColorRect2" type="ColorRect" parent="Lobby"]
 layout_mode = 0
-offset_left = 320.0
-offset_top = 64.0
-offset_right = 576.0
-offset_bottom = 576.0
+offset_left = 64.0
+offset_top = 72.0
+offset_right = 472.0
+offset_bottom = 120.0
 color = Color(0, 0, 0, 0.12549)
+
+[node name="ColorRect3" type="ColorRect" parent="Lobby"]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 576.0
+offset_right = 576.0
+offset_bottom = 624.0
+color = Color(0, 0, 0, 0.12549)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Lobby"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 136.0
+offset_right = 312.0
+offset_bottom = 568.0
+text = "427777128"
+
+[node name="Button" type="Button" parent="Lobby"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 80.0
+offset_right = 464.0
+offset_bottom = 112.0
+text = "Ready"
+
+[node name="TextEdit" type="TextEdit" parent="Lobby"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 80.0
+offset_right = 320.0
+offset_bottom = 112.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_esas6")
+text = "2222"
 
 [node name="Connection" type="Control" parent="."]
 layout_mode = 3
@@ -36,33 +76,33 @@ offset_bottom = 40.0
 [node name="ColorRect3" type="ColorRect" parent="Connection"]
 layout_mode = 0
 offset_left = 760.0
-offset_top = 456.0
+offset_top = 448.0
 offset_right = 1032.0
-offset_bottom = 584.0
+offset_bottom = 576.0
 color = Color(0, 0, 0, 0.188235)
 
 [node name="Start Server" type="Button" parent="Connection"]
 layout_mode = 0
 offset_left = 768.0
-offset_top = 464.0
+offset_top = 456.0
 offset_right = 1024.0
-offset_bottom = 496.0
+offset_bottom = 488.0
 text = "Start Server"
 
 [node name="Start Client" type="Button" parent="Connection"]
 layout_mode = 0
 offset_left = 768.0
-offset_top = 544.0
+offset_top = 536.0
 offset_right = 1024.0
-offset_bottom = 576.0
+offset_bottom = 568.0
 text = "Start Client"
 
 [node name="IP" type="TextEdit" parent="Connection"]
 layout_mode = 0
 offset_left = 768.0
-offset_top = 504.0
+offset_top = 496.0
 offset_right = 904.0
-offset_bottom = 536.0
+offset_bottom = 528.0
 text = "127.0.0.1"
 placeholder_text = "Public IPv4"
 scroll_past_end_of_file = true
@@ -78,9 +118,9 @@ vertical_alignment = 1
 [node name="Port" type="TextEdit" parent="Connection"]
 layout_mode = 0
 offset_left = 920.0
-offset_top = 504.0
+offset_top = 496.0
 offset_right = 1024.0
-offset_bottom = 536.0
+offset_bottom = 528.0
 text = "21212"
 placeholder_text = "Port"
 scroll_past_end_of_file = true

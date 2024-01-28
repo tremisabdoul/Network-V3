@@ -4,7 +4,7 @@ var data: Dictionary = {"delay": 0, "online_variables": {}}
 var inputs_pressed: Array[StringName] = []
 var last_inputs_pressed: Array[StringName] = []
 
-
+var last_process_time: float = Time.get_unix_time_from_system()
 func is_input_pressed(input_name):
 	return input_name in inputs_pressed
 
@@ -30,27 +30,24 @@ func is_input_just_released(input_name):
 
 func synchronize_data(_data: Dictionary):
 	data = _data
-	data["delay"] = round(data["delay"])
-	#print("Delay: ", data["delay"], "\tms")
+	data["delay"] = round(data["delay"]*10)/10
+	if randf() < 0.001:
+		print("Delay: ", data["delay"], "\tms")
 
 
-func synchronize_inputs(inputs: int):
+func input_process(inputs: int):
 	last_inputs_pressed = inputs_pressed
 	inputs_pressed = get_inputs_pressed(inputs)
-	get_node("Debug").text = str(inputs_pressed) + "" 
+	get_node("Debug").text = str(inputs_pressed) + ""
 
 
 func get_online_variables():
 	return {
+		"state": "lobby", 
 		"basis": Basis(), 
 		"velocity": Vector3(), 
-		"x": OS.get_system_fonts()
+		#"x": OS.get_system_fonts()
 	}
-
-
-func _enter_tree():
-	if is_owner():
-		add_child(RichTextLabel.new())
 
 
 func _physics_process(_delta):
