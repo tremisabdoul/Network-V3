@@ -1,0 +1,264 @@
+[gd_scene load_steps=22 format=3 uid="uid://dudj23xcaof08"]
+
+[ext_resource type="Script" path="res://3d_fps_robot.gd" id="1_yp656"]
+[ext_resource type="Material" uid="uid://cyrcef78n85d0" path="res://new_standard_material_3d.tres" id="2_y2mho"]
+
+[sub_resource type="Gradient" id="Gradient_a8h75"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.37013, 0.662338)
+colors = PackedColorArray(1, 0, 1, 1, 1, 0.12549, 0, 1, 0, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cjlyw"]
+noise_type = 5
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qcdpd"]
+width = 128
+height = 128
+color_ramp = SubResource("Gradient_a8h75")
+noise = SubResource("FastNoiseLite_cjlyw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fesvg"]
+albedo_texture = SubResource("NoiseTexture2D_qcdpd")
+uv1_scale = Vector3(3, 2, 1)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_6ce71"]
+material = SubResource("StandardMaterial3D_fesvg")
+size = Vector3(128, 1, 128)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_iaji0"]
+data = PackedVector3Array(-64, 0.5, 64, 64, 0.5, 64, -64, -0.5, 64, 64, 0.5, 64, 64, -0.5, 64, -64, -0.5, 64, 64, 0.5, -64, -64, 0.5, -64, 64, -0.5, -64, -64, 0.5, -64, -64, -0.5, -64, 64, -0.5, -64, 64, 0.5, 64, 64, 0.5, -64, 64, -0.5, 64, 64, 0.5, -64, 64, -0.5, -64, 64, -0.5, 64, -64, 0.5, -64, -64, 0.5, 64, -64, -0.5, -64, -64, 0.5, 64, -64, -0.5, 64, -64, -0.5, -64, 64, 0.5, 64, -64, 0.5, 64, 64, 0.5, -64, -64, 0.5, 64, -64, 0.5, -64, 64, 0.5, -64, -64, -0.5, 64, 64, -0.5, 64, -64, -0.5, -64, 64, -0.5, 64, 64, -0.5, -64, -64, -0.5, -64)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_k84rt"]
+points = PackedVector3Array(0.193552, 0.429895, 0.193527, -0.375977, -0.141953, -0.021147, -0.269055, -0.159333, -0.269, 0.175969, -0.466694, 0.176022, 0.264034, -0.160439, -0.270844, -0.0214425, 0.468684, -0.237727, -0.252082, 0.21316, 0.263002, -0.113043, -0.566456, 0.0330816, -0.00343314, -0.179798, 0.374137, 0.374139, 0.179807, -0.00342381, -0.254497, 0.448444, -0.0213433, 0.0145679, -0.470405, -0.238587, 0.280327, -0.123989, 0.2625, 0.0143426, 0.142937, -0.37856, -0.235643, -0.303701, 0.246667, 0.33569, -0.303398, -0.0212539, 0.24668, 0.303675, -0.235647, -0.00343314, 0.586009, 0.05145, 0.0144271, 0.305115, 0.33756, -0.253458, 0.250044, -0.253479, 0.123019, -0.542078, -0.0937525, 0.159461, 0.542942, -0.00342381, 0.0143426, -0.142936, -0.378558, -0.254499, -0.448448, -0.0213435, -0.378529, 0.142925, 0.0144208, 0.262552, 0.123996, 0.280303, -0.165914, 0.469402, 0.177063, -0.0394966, -0.468303, 0.230689, -0.200548, -0.412212, -0.200505, -0.270874, -0.160424, 0.263971, 0.210637, -0.374599, -0.217383, -0.112346, 0.544652, -0.112318)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wph72"]
+points = PackedVector3Array(-0.0902304, -0.283767, 0.0195372, 0.0562785, 0.293449, 0.0196262, 0.0563049, 0.293589, -0.017035, 0.28466, -0.0913418, 0.00129998, -0.00783082, -0.0549571, -0.292034, -0.20734, 0.0453539, 0.209883, -0.262337, 0.081785, -0.116878, 0.111399, -0.0274816, 0.276576, 0.0922381, 0.17276, -0.226045, 0.264868, 0.136254, 0.0103532, 0.18249, -0.12681, -0.197998, -0.243371, -0.135935, -0.107437, 0.0651558, -0.246334, 0.156395, -0.125739, 0.226794, 0.146414, 0.0648763, -0.254362, -0.144066, -0.179579, -0.153735, 0.182179, 0.0922437, 0.181887, 0.219599, -0.134681, 0.217603, -0.1528, 0.209906, 0.0453467, -0.207306, -0.291347, 0.0365523, 0.0286855, -0.117199, 0.0364349, -0.272133, 0.210064, -0.0362821, 0.210064, -0.098408, -0.181246, -0.216172, 0.156506, -0.255664, 0.00129998, -0.108377, 0.03654, 0.275522, -0.199136, 0.218705, 0.0285881, -0.00776564, -0.136497, 0.265229, 0.173195, -0.171895, 0.173195, -0.254179, -0.118622, 0.101628, 0.182781, 0.217812, -0.0894407, 0.219645, 0.181868, 0.0922057, -0.0626201, 0.283148, -0.0717189)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yewr8"]
+radius = 0.3
+height = 0.6
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_wjsd1"]
+radius = 0.1
+height = 0.6
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_f7wjb"]
+radius = 0.07
+height = 0.6
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_nfvsy"]
+radius = 0.1
+height = 0.2
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_geyqp"]
+radius = 0.3
+height = 1.2
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_oo1pd"]
+radius = 0.1
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_qbvui"]
+radius = 0.1
+height = 0.4
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_qmtkf"]
+radius = 0.01
+height = 0.2
+radial_segments = 16
+rings = 16
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nr5wd"]
+
+[sub_resource type="Sky" id="Sky_7yl30"]
+sky_material = SubResource("ProceduralSkyMaterial_nr5wd")
+
+[sub_resource type="Environment" id="Environment_t3qrl"]
+background_mode = 2
+sky = SubResource("Sky_7yl30")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_6ce71")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_iaji0")
+
+[node name="Body" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_yp656")
+
+[node name="Collision1" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ConvexPolygonShape3D_k84rt")
+
+[node name="Collision2" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ConvexPolygonShape3D_wph72")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("SphereMesh_yewr8")
+skeleton = NodePath("../Head")
+
+[node name="Head" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Body/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+fov = 110.0
+
+[node name="Camera2D" type="Camera2D" parent="Body/Head/Camera3D"]
+
+[node name="ColorRect" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = 6.0
+offset_top = -1.0
+offset_right = 10.0
+offset_bottom = 0.999999
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect5" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = 4.0
+offset_top = -1.0
+offset_right = 6.0
+offset_bottom = 1.0
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -10.0
+offset_top = -1.0
+offset_right = -6.0
+offset_bottom = 0.999999
+pivot_offset = Vector2(2, 1)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect7" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -6.0
+offset_top = -1.0
+offset_right = -4.0
+offset_bottom = 1.0
+pivot_offset = Vector2(2, 1)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = -10.0
+offset_right = 1.0
+offset_bottom = -6.0
+pivot_offset = Vector2(1, 2)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect8" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = -6.0
+offset_right = 1.0
+offset_bottom = -4.0
+pivot_offset = Vector2(1, 2)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = 6.0
+offset_right = 1.0
+offset_bottom = 10.0
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect6" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = 4.0
+offset_right = 1.0
+offset_bottom = 6.0
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="RayCast3D" type="RayCast3D" parent="Body"]
+
+[node name="Meshes" type="Node3D" parent="Body"]
+
+[node name="ArmR1" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(0.984808, 0.142244, 0.0996005, 0.0151344, 0.501085, -0.865266, -0.172987, 0.853628, 0.491319, 0.3, 0.0999999, -0.2)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_wjsd1")
+skeleton = NodePath("../..")
+
+[node name="ArmR2" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(0.939693, 0.280167, -0.196175, -2.28299e-08, -0.573576, -0.819152, -0.34202, 0.769751, -0.538985, 0.2, 0.0999999, -0.6)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_f7wjb")
+skeleton = NodePath("../..")
+
+[node name="ArmR3" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.25, -0.75)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_nfvsy")
+skeleton = NodePath("../..")
+
+[node name="ArmL1" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, -0.3, -5.96046e-08, -0.1)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_wjsd1")
+skeleton = NodePath("../..")
+
+[node name="ArmL2" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(0.819152, 0.40558, -0.40558, 0, 0.707107, 0.707107, 0.573576, -0.579228, 0.579228, -0.2, -0.1, -0.3)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_f7wjb")
+skeleton = NodePath("../..")
+
+[node name="ArmL3" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.4)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_nfvsy")
+skeleton = NodePath("../..")
+
+[node name="Body" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("SphereMesh_geyqp")
+skeleton = NodePath("../..")
+
+[node name="Weapon1" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.35, -0.7)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_oo1pd")
+
+[node name="Weapon2" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.2, -0.4)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_qbvui")
+
+[node name="Weapon3" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.5)
+material_override = ExtResource("2_y2mho")
+mesh = SubResource("SphereMesh_qmtkf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_t3qrl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.846007, -0.532813, -0.0195653, 0, -0.036696, 0.999326, -0.533172, -0.845437, -0.0310451, 0, 1, 0)

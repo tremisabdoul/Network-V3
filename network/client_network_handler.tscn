@@ -27,3 +27,10 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_fhusa")
 bbcode_enabled = true
 
 [node name="Players" type="Node" parent="."]
+
+[node name="Disconnect" type="Button" parent="."]
+offset_left = 640.0
+offset_right = 704.0
+offset_bottom = 24.0
+theme_override_font_sizes/font_size = 8
+text = "Disconnect"

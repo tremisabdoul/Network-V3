@@ -1,0 +1,151 @@
+[gd_scene load_steps=9 format=3 uid="uid://dudj23xcaof08"]
+
+[ext_resource type="Script" path="res://3d_fps.gd" id="1_tn1bu"]
+[ext_resource type="MeshLibrary" uid="uid://dem2l3nlsyt6x" path="res://meshes.tres" id="3_4de0s"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1gki0"]
+radius = 0.3
+height = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_geyqp"]
+radius = 0.3
+height = 1.2
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_yewr8"]
+radius = 0.3
+height = 0.6
+radial_segments = 16
+rings = 16
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nr5wd"]
+
+[sub_resource type="Sky" id="Sky_7yl30"]
+sky_material = SubResource("ProceduralSkyMaterial_nr5wd")
+
+[sub_resource type="Environment" id="Environment_t3qrl"]
+background_mode = 2
+sky = SubResource("Sky_7yl30")
+ambient_light_source = 2
+ambient_light_color = Color(0.894118, 1, 0.952941, 1)
+ambient_light_energy = 0.1
+sdfgi_bounce_feedback = 0.1
+volumetric_fog_density = 0.2
+volumetric_fog_temporal_reprojection_enabled = false
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Body" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.0696, 1.64033)
+script = ExtResource("1_tn1bu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+shape = SubResource("CapsuleShape3D_1gki0")
+
+[node name="Meshes" type="Node3D" parent="Body"]
+
+[node name="Body" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
+mesh = SubResource("SphereMesh_geyqp")
+skeleton = NodePath("../..")
+
+[node name="Head" type="MeshInstance3D" parent="Body/Meshes"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("SphereMesh_yewr8")
+skeleton = NodePath("../../Head")
+
+[node name="Head" type="Node3D" parent="Body"]
+
+[node name="Camera3D" type="Camera3D" parent="Body/Head"]
+fov = 110.0
+far = 64.0
+
+[node name="Camera2D" type="Camera2D" parent="Body/Head/Camera3D"]
+
+[node name="ColorRect" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = 6.0
+offset_top = -1.0
+offset_right = 10.0
+offset_bottom = 0.999999
+pivot_offset = Vector2(-6, 1)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect5" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = 4.0
+offset_top = -1.0
+offset_right = 6.00001
+offset_bottom = 1.0
+pivot_offset = Vector2(-4, 1)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -10.0
+offset_top = -1.0
+offset_right = -5.99999
+offset_bottom = 0.999999
+pivot_offset = Vector2(10, 1)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect7" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -6.0
+offset_top = -1.0
+offset_right = -3.99999
+offset_bottom = 1.0
+pivot_offset = Vector2(6, 1)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = -10.0
+offset_right = 1.00001
+offset_bottom = -6.0
+pivot_offset = Vector2(1, 10)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect8" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = -6.0
+offset_right = 1.00001
+offset_bottom = -4.0
+pivot_offset = Vector2(1, 6)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = 6.0
+offset_right = 1.00001
+offset_bottom = 10.0
+pivot_offset = Vector2(1, -6)
+color = Color(1, 1, 1, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect6" type="ColorRect" parent="Body/Head/Camera3D/Camera2D"]
+offset_left = -1.0
+offset_top = 4.0
+offset_right = 1.00001
+offset_bottom = 6.0
+pivot_offset = Vector2(1, -4)
+color = Color(0, 0, 0, 0.768627)
+metadata/_edit_use_anchors_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_t3qrl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.837541, 0.153525, -0.524362, 0.354708, 0.577189, 0.735551, 0.415581, -0.80205, 0.428962, 0, 4, -5)
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("3_4de0s")
+cell_scale = 2.0
+data = {
+"cells": PackedInt32Array(-1, 65535, 0, -65536, 65535, 0, -65536, 0, 0, -1, 0, 0, -2, 0, 0, -65535, 0, 0, -65535, 65535, 0, -65536, 65534, 0, -1, 65534, 0, -2, 65534, 0, -3, 65534, 0, -3, 65535, 0, -3, 0, 0, -65534, 0, 0, -65534, 65535, 0, -65536, 65533, 0, -1, 65533, 0, 65534, 1, 0, 65533, 1, 0, 65535, 2, 0, 65535, 1, 0, 0, 1, 0, 2, 1, 917507, 2, 2, 0, 1, 2, 0, 0, 2, 0, 1, 65534, 0, 1, 65533, 0, 2, 65533, 0, 2, 65534, 0, -65533, 0, 0, -65533, 65535, 0, -65532, 0, 0, -65532, 65535, 0, -65532, 1, 0, -65532, 2, 0, -65532, 3, 0, -65532, 4, 0, -65533, 4, 0, -65534, 4, 0, -65535, 4, 0, -65536, 4, 0, -1, 4, 0, -2, 4, 0, -3, 4, 0, -4, 4, 0, -5, 4, 0, -5, 3, 0, -5, 2, 0, -5, 1, 0, -5, 0, 0, -5, 65535, 0, -4, 65535, 0, -5, 65534, 0, -4, 65534, 0, -5, 65533, 0, -5, 65532, 0, -65536, 65531, 0, -65535, 65531, 0, -65534, 65531, 0, -65533, 65531, 0, -65533, 65532, 0, -65532, 65532, 0, -65532, 65531, 0, -65532, 65533, 0, -65532, 65534, 0, -65533, 65534, 0, -65533, 65533, 0, -65534, 65532, 0, -1, 65532, 0, -65536, 65532, 0, -65535, 65532, 0, -4, 0, 0, -4, 1, 0, -4, 2, 0, -4, 3, 0, -3, 3, 0, -2, 3, 0, -1, 3, 0, -65536, 3, 0, -65535, 3, 0, -65534, 3, 0, -65533, 3, 0, -65533, 2, 0, -65533, 1, 0, 65530, 4, 0, 65530, 3, 0, 65530, 2, 0, 65530, 1, 0, 65530, 0, 0, 65530, 65535, 0, 65530, 65534, 0, 65530, 65533, 0, 65530, 65532, 0, 65530, 65531, 0, 65530, 65530, 0, 65533, 65530, 0, 65534, 65530, 0, 65535, 65530, 0, 0, 65530, 0, 3, 65530, 0, 4, 65530, 0, 1, 65530, 0, -1, 65531, 0, 65534, 65531, 0, 65533, 65531, 0, 65534, 65533, 0, 65534, 65532, 0, -4, 65532, 0, -4, 65533, 0, 5, 65531, 0, 5, 65532, 0, 5, 65533, 0, 5, 65534, 0, 5, 65535, 0, 5, 0, 0, 5, 1, 0, 5, 2, 0, -65534, 65530, 0, -65534, 65529, 0, -65533, 65529, 0, 1, 65529, 0, 2, 65528, 0, 3, 65528, 0, 4, 65529, 0, -5, 65530, 0, -5, 65531, 0, -4, 65531, 0, -4, 65530, 0, -4, 65529, 0, -5, 65529, 0, -3, 65529, 0, -2, 65529, 0, -2, 65528, 0, -3, 65528, 0, -4, 65528, 0, -5, 65528, 0, 65535, 65529, 0, 65535, 65528, 0, 65534, 65527, 0, 65533, 65527, 0, 65532, 65527, 0, 65531, 65527, 0, 65530, 65528, 0, 65530, 65529, 0, 65531, 5, 0, 65532, 5, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 65535, 8, 0, 65534, 8, 0, 65533, 8, 0, 65532, 8, 0, 65531, 7, 0, 65531, 6, 0, -4, 6, 0, -4, 7, 0, -3, 7, 0, -2, 7, 0, -1, 7, 0, -1, 6, 0, -1, 5, 0, -2, 5, 0, -2, 6, 0, -3, 6, 0, -65531, 3, 0, -65530, 3, 0, -65530, 4, 0, -65531, 4, 0, -65530, 2, 0, 6, 1, 0, 7, 2, 0, 7, 3, 0, 7, 4, 0, 6, 5, 0, 5, 5, 0, 4, 5, 0, 3, 5, 0, 2, 5, 0, 1, 7, 0, 2, 7, 0, 3, 6, 0, -65534, 6, 0, -65535, 6, 0, -65535, 5, 0, 65534, 65535, 2, -2, 65535, 0, 65533, 65533, 262145, 65533, 65532, 0, -3, 65533, 0, 1, 1, 917505, -65534, 1, 0, -65535, 1, 0, 65533, 2, 262147, 65534, 2, 262145, -3, 2, 655360, -2, 2, 655360, 65535, 5, 262145, 65533, 5, 1376257, -3, 5, 655360)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
