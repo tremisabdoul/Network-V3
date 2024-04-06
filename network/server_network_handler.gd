@@ -29,8 +29,9 @@ func connect_peer(id):
 	id = str(id)
 	print("Client connection:\t", id)
 	if !Players.has_node(id):
-		Players.add_child(Global._Player.instantiate())
-		Players.get_children()[-1].name = id
+		var Player = Global._Player.instantiate()
+		Player.name = id
+		Players.add_child(Player)
 	players_data["players"][id] = Players.get_node(id).get_online_variables()
 	players_data["players"][id]["delay"] = 0.
 	get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
@@ -50,7 +51,7 @@ func disconnect_peer(id):
 func synchronise_data(data: Dictionary):
 	var id: String = str(multiplayer.get_remote_sender_id())
 	if Players.has_node(id):
-		Players.get_node(id).input_process(data["inputs"])
+		Players.get_node(id).server_network_process(data)
 	players_data["players"][id]["delay"] = (players_data["players"][id]["delay"] * 24 + 
 			(Time.get_unix_time_from_system() - data["time"]) * 1000) / 25
 	players_data["players"][id]["delay"] = float(players_data["players"][id]["delay"])
@@ -120,6 +121,7 @@ func _ready():
 		"the server !"
 
 	get_node("Net Status/Server help").visible = true
+	get_node("/root/Global").status = get_node("/root/Global").States.LOBBY
 
 
 func _process(_delta):
@@ -131,21 +133,19 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("switch_network_status_visibility"):
 		if !get_parent().size:
-			print("e")
 			get_parent().borderless = false
 			get_window().reset_size()
 			if get_window().size.length() < 128:
 				get_window().size = Vector2(736, 328)
 				get_window().position = Vector2(0, 32)
-			Engine.max_fps = 60
+			Engine.max_fps = 2
 			ProjectSettings["application/run/low_processor_mode"] = false
 			#get_viewport().disable_3d = false
 		else:
-			print("f")
 			get_parent().borderless = true
 			get_parent().min_size = Vector2()
 			get_window().size = Vector2()
-			Engine.max_fps = 512
+			Engine.max_fps = 0#512
 			ProjectSettings["application/run/low_processor_mode"] = true
 			#get_viewport().disable_3d = true
 

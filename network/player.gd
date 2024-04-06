@@ -1,44 +1,37 @@
 extends Node
 
+@onready var InputTool: Node
+
 var data: Dictionary = {"delay": 0, "online_variables": {}}
-var inputs_pressed: Array[StringName] = []
-var last_inputs_pressed: Array[StringName] = []
-
-var last_process_time: float = Time.get_unix_time_from_system()
-
-var playername: String = ""
-
-func is_input_pressed(input_name):
-	return input_name in inputs_pressed
+var last_data: Dictionary = {"delay": 0, "online_variables": {}}
 
 
-func get_inputs_pressed(inputs):
-	inputs_pressed = []
-	var i: int = 0
-	while inputs:
-		if inputs % 2:
-			inputs_pressed.append(Global.input_list[i])
-		inputs /= 2
-		i += 1
-	return inputs_pressed
+func _input(event):
+	if is_owner():
+		if event is InputEventMouseMotion:
+			rpc_id(1, "mouse_motion", event.relative.x, event.relative.y)
+			mouse_motion(event.relative.x, event.relative.y)
 
 
-func is_input_just_pressed(input_name):
-	return (!(input_name in last_inputs_pressed)) && (input_name in inputs_pressed)
-
-
-func is_input_just_released(input_name):
-	return ((input_name in last_inputs_pressed)) && !(input_name in inputs_pressed)
-
+@rpc("any_peer", "call_remote", "unreliable")
+func mouse_motion(x, y):
+	if has_node("Player"):
+		get_node("Player").rotation.y += -x * get_node("Player").sensi.x
+		if has_node("Player/Camera"):
+			get_node("Player/Camera").rotation.x += -y * get_node("Player").sensi.y
 
 func synchronize_data(_data: Dictionary):
+	last_data = data
 	data = _data
 	data["delay"] = round(data["delay"]*10)/10
-	if randf() < 0.01:
-		print("Delay: ", data["delay"], "\tms")
+	if randf() < 1:#0.01:
+		get_node("Debug").text = playername+"'s delay: " + str(data["delay"]) + "\tms"
+		#print("Delay: ", data["delay"], "\tms")
 	if playername != data["online_variables"]["playername"]:
 		playername = data["online_variables"]["playername"]
 		update_playername()
+	if has_node("Player"):
+		get_node("Player")._network_process()
 
 
 func update_playername():
@@ -49,12 +42,18 @@ func update_playername():
 	Lobby.get_node("Ready Check").text = ""
 	for player in Lobby.playerlist.values():
 		Lobby.get_node("Ready Check").text += player + "\n"
+	var is_everyone_ready: bool = true
+	for player in get_node("..").get_children():
+		if !(get_node("../"+str(player.name)).playername):
+			is_everyone_ready = false
+	if is_everyone_ready:
+		Global.start_game()
 
 
-func input_process(inputs: int):
-	last_inputs_pressed = inputs_pressed
-	inputs_pressed = get_inputs_pressed(inputs)
-	get_node("Debug").text = playername + ": " + str(inputs_pressed) + ""
+var playername: String = ""
+var rotation_y: float = 0.
+var origin: Vector3 = Vector3()
+var velocity: Vector3 = Vector3()
 
 
 func get_online_variables():
@@ -62,11 +61,11 @@ func get_online_variables():
 	#for _i in range(3900):
 	#	x += "0"
 	#print(255*len(x))
-	return {
-		"state": "lobby", 
+	return { 
 		"playername": playername, 
-		"basis": Basis(), 
-		"velocity": Vector3(),
+		"rotation y": rotation_y, 
+		"origin": origin, 
+		"velocity": velocity
 	}
 
 
@@ -82,8 +81,16 @@ func display(variable, sender: int):
 
 func _ready():
 	get_node("Debug").position.y = 72 + 64 * (get_parent().get_child_count() - 1)
-	print(get_node("Debug").position.y)
+	if is_owner() or multiplayer.is_server():
+		add_child(load("res://input_tool.tscn").instantiate())
+		InputTool = get_node("InputTool")
 
+func server_network_process(_data: Dictionary):
+	data = _data
+	input_process(_data["inputs"])
+
+func input_process(inputs: int):
+	InputTool.input_process(inputs)
 
 func _physics_process(_delta):
 	
@@ -96,7 +103,9 @@ func _physics_process(_delta):
 	else:
 		pass#print(len(data["online_variables"]["x"]))
 
+
 func is_owner(): return str(multiplayer.get_unique_id()) == name
+
 
 func NETWORK_RPC_CALL_EXEMPLE():
 	get_node("/root/Network").rpc_call(
@@ -121,7 +130,8 @@ func main_menu_ready_server_check(_playername: String = "Snow"):
 			_playername = _playername.erase(i)
 		
 	if _playername in get_node("/root/Main Menu/Lobby").playerlist.values() \
-			or len(_playername) < 1 or len(_playername) > 32:
+			or len(_playername) < 1 or len(_playername) > 32 \
+			or Global.status != Global.States.LOBBY:
 		return
 	#get_node("/root/Network").rpc_call(
 	#	get_path(), 
@@ -147,3 +157,11 @@ func main_menu_set_ready(_playername: String = "Snow"):
 	Lobby.get_node("Ready Check").text = ""
 	for player in Lobby.playerlist.values():
 		Lobby.get_node("Ready Check").text += player + "\n"
+	
+	var is_everyone_ready: bool = true
+	for player in get_node("..").get_children():
+		if !(get_node("../"+str(player.name)).playername):
+			is_everyone_ready = false
+	if is_everyone_ready:
+		Global.start_game()
+		get_node("/root/Network").players_data["map"] = str(randi()%1+1)

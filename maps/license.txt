@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Scene Forest Waterfall
+* source:	https://sketchfab.com/3d-models/low-poly-scene-forest-waterfall-536a2db7384145c9aff9bfdfe2aeb5ab
+* author:	Art.Yan (https://sketchfab.com/Art.Yan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Scene Forest Waterfall" (https://sketchfab.com/3d-models/low-poly-scene-forest-waterfall-536a2db7384145c9aff9bfdfe2aeb5ab) by Art.Yan (https://sketchfab.com/Art.Yan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

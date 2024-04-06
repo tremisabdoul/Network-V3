@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqap8jeqsu4pm"]
+[gd_scene load_steps=4 format=3 uid="uid://cqap8jeqsu4pm"]
 
-[ext_resource type="Script" path="res://main_menu.gd" id="1_frsvj"]
 [ext_resource type="Script" path="res://main_menu_lobby.gd" id="2_kqnnl"]
 [ext_resource type="Script" path="res://main_menu_connection.gd" id="3_2hci8"]
 
@@ -11,8 +10,9 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Main Menu" type="Node2D"]
-script = ExtResource("1_frsvj")
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Lobby" type="Control" parent="."]
 layout_mode = 3

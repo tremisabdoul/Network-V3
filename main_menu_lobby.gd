@@ -4,6 +4,7 @@ var playerlist: Dictionary = {}
 
 
 func _on_ready_button_pressed():
+	get_node("ID").release_focus()
 	if get_node("/root/").has_node("Network"):
 		get_node("/root/Network").rpc_call(
 			"/root/Network/Players/"+str(multiplayer.get_unique_id()), 

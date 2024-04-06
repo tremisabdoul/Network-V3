@@ -43,8 +43,9 @@ func synchronise_data(data: Dictionary):
 			print("Client connection:\t", id)
 			players_data["players"][id] = {"delay": 0.0}
 			if !Players.has_node(id):
-				Players.add_child(Global._Player.instantiate())
-				Players.get_children()[-1].name = id
+				var Player = Global._Player.instantiate()
+				Player.name = id
+				Players.add_child(Player)
 			players_data["players"][id] = {"delay": 0.0}
 			get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 					"id: " + str(multiplayer.get_unique_id()) + ", is server: false, players: " + \
@@ -57,6 +58,8 @@ func synchronise_data(data: Dictionary):
 		get_node("Net Status").text = CONNECTION_STATUS_MESSAGES[current_connection_status] + \
 				"id: " + str(multiplayer.get_unique_id()) + ", is server: false, players: " + \
 				str(players_data["players"].keys())
+	if data.has("map"):
+		players_data["map"] = data["map"]
 
 
 func rpc_call(path: NodePath = "/root/Network/Players/LOCAL_ID/...", \
@@ -84,6 +87,7 @@ func rpc_call_client_reciver(path: NodePath = "/root/Network/Players/0", method:
 
 func _ready():
 	join_room()
+	get_node("/root/Global").status = get_node("/root/Global").States.LOBBY
 
 
 func _process(_delta):
@@ -108,7 +112,7 @@ func send_data():
 		rpc_id(1, "synchronise_data", {
 			"time": Time.get_unix_time_from_system(), 
 			"inputs": inputs, 
-			"mouse_position": get_window().get_mouse_position()
+			"delay": get_node("Players/"+str(multiplayer.get_unique_id())).data["delay"]
 		})
 
 

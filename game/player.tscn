@@ -1,0 +1,94 @@
+[gd_scene load_steps=11 format=3 uid="uid://cyby00mbua02i"]
+
+[ext_resource type="Script" path="res://game/player.gd" id="1_yoqpj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o5c87"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="Gradient" id="Gradient_mqh3s"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.510638)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.12549, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_84v43"]
+gradient = SubResource("Gradient_mqh3s")
+width = 2
+height = 2
+fill = 1
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0.5, 0.5)
+repeat = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k30p2"]
+albedo_texture = SubResource("GradientTexture2D_84v43")
+uv1_scale = Vector3(8, 9, 1)
+texture_filter = 0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_eejkv"]
+material = SubResource("StandardMaterial3D_k30p2")
+radius = 0.4
+height = 1.8
+radial_segments = 16
+rings = 4
+
+[sub_resource type="SystemFont" id="SystemFont_lidap"]
+font_names = PackedStringArray("Calibri")
+font_weight = 200
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_pygl6"]
+dof_blur_far_distance = 16.0
+dof_blur_far_transition = 128.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 1.0
+dof_blur_amount = 0.2
+
+[sub_resource type="Gradient" id="Gradient_b6fij"]
+offsets = PackedFloat32Array(0, 0.236686, 1)
+colors = PackedColorArray(0, 0.501961, 1, 0.25098, 0, 0.501961, 1, 0.25098, 0, 0.12549, 0.25098, 0.501961)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dpdml"]
+gradient = SubResource("Gradient_b6fij")
+width = 1024
+height = 1024
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+metadata/_snap_enabled = true
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+collision_layer = 0
+script = ExtResource("1_yoqpj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_o5c87")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_eejkv")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Label" type="Label3D" parent="."]
+pixel_size = 0.0015
+billboard = 1
+double_sided = false
+no_depth_test = true
+fixed_size = true
+text = "Snow"
+font = SubResource("SystemFont_lidap")
+outline_size = 4
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+attributes = SubResource("CameraAttributesPractical_pygl6")
+current = true
+fov = 90.0
+
+[node name="E" type="Sprite3D" parent="Camera"]
+transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, -0.653781)
+visible = false
+pixel_size = 0.001
+texture = SubResource("GradientTexture2D_dpdml")

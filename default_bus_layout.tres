@@ -1,0 +1,12 @@
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://berg3mg4dhhn3"]
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_u4pf2"]
+resource_name = "Reverb"
+room_size = 0.1
+damping = 0.22
+spread = 0.13
+wet = 0.15
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectReverb_u4pf2")
+bus/0/effect/0/enabled = true
