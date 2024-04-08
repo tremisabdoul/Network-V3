@@ -27,6 +27,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_fhusa")
 bbcode_enabled = true
 
 [node name="Disconnect" type="Button" parent="Net Status"]
+layout_mode = 0
 offset_left = 616.0
 offset_top = -8.0
 offset_right = 680.0

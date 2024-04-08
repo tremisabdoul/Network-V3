@@ -26,7 +26,7 @@ func _network_process(): # Executed on all clients
 		global_position = (get_parent().data["online_variables"]["origin"])
 		global_rotation.y += angle_difference(global_rotation.y, get_parent().data["online_variables"]["rotation y"])
 		velocity = (get_parent().data["online_variables"]["velocity"])
-		#position -= (velocity * get_parent().data["delay"]/1000)/2
+		position -= (velocity * get_parent().data["delay"]/1000)/2
 		return
 	global_rotation.y = get_parent().data["online_variables"]["rotation y"]
 	velocity = get_parent().data["online_variables"]["velocity"]
@@ -41,18 +41,17 @@ func input_process(_delta):
 
 
 func _process(_delta):
-	if get_parent().is_owner() or multiplayer.is_server():
-		if get_parent().is_owner():
-			if is_on_floor():
-				if 1:
-					get_node("Camera").position.y = pow(cos(dt*.018), 2)*.05+.475
-					get_node("Camera").position.x = pow(sin(dt*.018), 1)*.05
-					get_node("Camera").position.z = -pow(sin(dt*.018*2), 1)*.02
-					get_node("Camera").fov = (get_node("Camera").fov * 2 + 87.5 + 
-						(abs(get_real_velocity().x) + abs(get_real_velocity().z))*.5)/3
-				else:
-					get_node("Camera").position = Vector3(0, .5, 0)
-					get_node("Camera").fov = 90
+	if get_parent().is_owner():
+		if is_on_floor():
+			if 1:
+				get_node("Camera").position.y = pow(cos(dt*.018), 2)*.05+.475
+				get_node("Camera").position.x = pow(sin(dt*.018), 1)*.05
+				get_node("Camera").position.z = -pow(sin(dt*.018*2), 1)*.02
+				get_node("Camera").fov = (get_node("Camera").fov * 2 + 87.5 + 
+					(abs(get_real_velocity().x) + abs(get_real_velocity().z))*.5)/3
+			else:
+				get_node("Camera").position = Vector3(0, .5, 0)
+				get_node("Camera").fov = 90
 	Engine.max_fps = int(Input.is_action_pressed("crouch"))*2
 
 

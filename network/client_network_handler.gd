@@ -109,11 +109,12 @@ func send_data():
 		for i in range(len(Global.input_list)):
 			inputs += int(Input.is_action_pressed(Global.input_list[i])) * int(pow(2, i))
 		Players.get_node(str(multiplayer.get_unique_id())).input_process(inputs)
-		rpc_id(1, "synchronise_data", {
-			"time": Time.get_unix_time_from_system(), 
-			"inputs": inputs, 
-			"delay": get_node("Players/"+str(multiplayer.get_unique_id())).data["delay"]
-		})
+		if inputs:
+			rpc_id(1, "synchronise_data", {
+				"time": Time.get_unix_time_from_system(), 
+				"inputs": inputs, 
+				"delay": get_node("Players/"+str(multiplayer.get_unique_id())).data["delay"]
+			})
 
 
 func _exit_tree():
