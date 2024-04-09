@@ -52,7 +52,7 @@ func _process(_delta):
 			else:
 				get_node("Camera").position = Vector3(0, .5, 0)
 				get_node("Camera").fov = 90
-	Engine.max_fps = int(Input.is_action_pressed("crouch"))*2
+		Engine.max_fps = int(Input.is_action_pressed("crouch"))*2
 
 
 func _physics_process(delta):
